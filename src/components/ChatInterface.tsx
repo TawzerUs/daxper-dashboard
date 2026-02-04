@@ -44,27 +44,46 @@ export default function ChatInterface() {
     setInput('');
     setIsLoading(true);
 
-    // Simulate AI response (replace with actual API call later)
-    setTimeout(() => {
-      const assistantMessage: Message = {
+    try {
+      // Send to OpenClaw API
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.response || 'Message received',
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
+      } else {
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'system',
+          content: `❌ Error: ${data.error || 'Failed to connect to DaxPer'}`,
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, errorMessage]);
+      }
+    } catch (error) {
+      const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: generateMockResponse(userMessage.content),
+        role: 'system',
+        content: '❌ Connection error. Please check your network and try again.',
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  };
-
-  const generateMockResponse = (userInput: string): string => {
-    const responses = [
-      "I understand your request. Let me process that information and get back to you with the results.",
-      "Great question! I'm working on that now. Give me a moment to analyze the data.",
-      "I've received your message. Processing your request through the available tools...",
-      "Acknowledged! I'm checking the system status and will provide you with a detailed response.",
-    ];
-    return responses[Math.floor(Math.random() * responses.length)];
+    }
   };
 
   return (
@@ -72,7 +91,7 @@ export default function ChatInterface() {
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-4">
         <h2 className="text-white text-xl font-bold flex items-center gap-2">
-          <span>💬</span> Chat with DaxPer
+          <span>💬</span> Chat with DaxPer <span className="text-sm opacity-80">(Live)</span>
         </h2>
       </div>
 
@@ -89,6 +108,8 @@ export default function ChatInterface() {
               className={`max-w-[80%] rounded-2xl px-5 py-3 ${
                 message.role === 'user'
                   ? 'bg-blue-600 text-white'
+                  : message.role === 'system'
+                  ? 'bg-red-600 text-white'
                   : 'bg-slate-700 text-white'
               }`}
             >
