@@ -33,6 +33,39 @@ npm run build
 npm start
 ```
 
+## 🔒 Security
+
+**IMPORTANT:** DaxPer Dashboard now requires secure configuration before use.
+
+### Required Setup
+
+1. **Set Password Securely**
+   ```bash
+   cp .env.local.example .env.local
+   # Edit .env.local and add your password
+   ```
+
+2. **Get Gateway Token**
+   ```bash
+   cat ~/.openclaw/openclaw.json | grep "gateway.auth.token"
+   ```
+
+3. **Configure Environment Variables**
+   - Password MUST be set via `DAXPER_AUTH_PASSWORD`
+   - Gateway URL and token MUST be set
+   - No default values - app will NOT work without them
+
+**📞 For Password:**
+- Email: tawzerus@gmail.com (ONLY for password sharing!)
+- DO NOT share password in GitHub issues, Slack, etc.
+
+**📄 Full Security Guide:**
+See [SECURITY.md](SECURITY.md) for:
+- Security checklist
+- Logging configuration
+- Troubleshooting
+- Best practices
+
 ## 🌐 Deployment
 
 ### GitHub Pages (Free & Simple)
