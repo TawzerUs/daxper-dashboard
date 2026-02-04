@@ -68,6 +68,14 @@ See [SECURITY.md](SECURITY.md) for:
 
 ## 🌐 Deployment
 
+### 📄 READ THIS FIRST: HOSTINGER_DEPLOYMENT.md
+
+**Important:** Hostinger has a specific environment variable format. Please read `HOSTINGER_DEPLOYMENT.md` before deploying!
+
+**Quick Answer:** Run locally with `npm run dev` - it works immediately!
+
+---
+
 ### GitHub Pages (Free & Simple)
 
 ```bash
