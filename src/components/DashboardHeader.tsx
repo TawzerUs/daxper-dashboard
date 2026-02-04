@@ -17,24 +17,20 @@ export default function DashboardHeader({ onLogout }: DashboardHeaderProps) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="text-right hidden sm:block">
+          <div className="flex items-center gap-6">
+            <div className="text-right">
               <p className="text-white font-semibold">Tawzer</p>
               <p className="text-slate-400 text-sm">Casablanca, Morocco</p>
             </div>
-
-            <div className="flex items-center gap-2 bg-green-500/20 border border-green-500/30 px-3 py-2 rounded-full">
+            <div className="flex items-center gap-2 bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-green-400 text-sm font-semibold hidden sm:inline">Online</span>
+              <span className="text-green-400 text-sm font-semibold">Online</span>
             </div>
-
             <button
               onClick={onLogout}
-              className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 px-4 py-2 rounded-lg transition-all flex items-center gap-2"
-              title="Logout"
+              className="bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
             >
-              <span>🚪</span>
-              <span className="hidden sm:inline">Logout</span>
+              Logout
             </button>
           </div>
         </div>

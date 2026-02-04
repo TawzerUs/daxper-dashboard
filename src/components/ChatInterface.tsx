@@ -45,7 +45,6 @@ export default function ChatInterface() {
     setIsLoading(true);
 
     try {
-      // Send to OpenClaw API
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -60,15 +59,15 @@ export default function ChatInterface() {
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: data.response || 'Message received',
+          content: data.response || 'Response received',
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, assistantMessage]);
       } else {
         const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
-          role: 'system',
-          content: `❌ Error: ${data.error || 'Failed to connect to DaxPer'}`,
+          role: 'assistant',
+          content: `⚠️ Error: ${data.error || 'Failed to get response'}`,
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, errorMessage]);
@@ -76,8 +75,8 @@ export default function ChatInterface() {
     } catch (error) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: 'system',
-        content: '❌ Connection error. Please check your network and try again.',
+        role: 'assistant',
+        content: '⚠️ Connection error. Please check if OpenClaw gateway is running.',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -91,7 +90,7 @@ export default function ChatInterface() {
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-4">
         <h2 className="text-white text-xl font-bold flex items-center gap-2">
-          <span>💬</span> Chat with DaxPer <span className="text-sm opacity-80">(Live)</span>
+          <span>💬</span> Chat with DaxPer
         </h2>
       </div>
 
@@ -108,8 +107,6 @@ export default function ChatInterface() {
               className={`max-w-[80%] rounded-2xl px-5 py-3 ${
                 message.role === 'user'
                   ? 'bg-blue-600 text-white'
-                  : message.role === 'system'
-                  ? 'bg-red-600 text-white'
                   : 'bg-slate-700 text-white'
               }`}
             >
